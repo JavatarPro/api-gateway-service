@@ -1,0 +1,44 @@
+info:
+  app:
+    name: api-gateway-service
+    description: API gateway service, acts as reverse proxy server build up on zuul
+    version: @project.version@
+    artifact: @project.artifactId@
+
+spring:
+  application:
+    name: ${info.app.name}
+
+server:
+  port: 8899
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud: DEBUG
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+  traceRequestBody: true
+  host:
+    connect-timeout-millis: 30000
+    socket-timeout-millis: 30000
+  debug:
+    request: true
+    parameter: true
+  routes:
+    ui:
+      path: /ui/**
+      sensitiveHeaders: Cookie,Set-Cookie,Authorization
+      url: http://localhost:8090
+    mvc-service:
+      path: /mvc-service/**
+      url: http://localhost:8090
+
+

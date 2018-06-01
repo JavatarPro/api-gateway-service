@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: api-gateway-service
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: API gateway µService, acts as reverse proxy server build up on zuul
+    version: @project.version@
+    artifact: @project.artifactId@
+
+server:
+  port: ${vcap.application.port:40180}
+  max-http-header-size: 327680
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          netflix:
+            zuul: DEBUG
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: ${eureka.uri:http://localhost:8761}/eureka/
+    healthcheck:
+      enabled: true
+
+cors.enabled: true
